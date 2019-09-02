@@ -4,6 +4,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 
+{{#models}}{{#model}}export 'model/{{classFilename}}.dart';
+{{/model}}{{/models}}
+
 part 'api_client.dart';
 part 'api_helper.dart';
 part 'api_exception.dart';
@@ -14,7 +17,5 @@ part 'auth/http_basic_auth.dart';
 
 {{#apiInfo}}{{#apis}}part 'api/{{classFilename}}.dart';
 {{/apis}}{{/apiInfo}}
-{{#models}}{{#model}}part 'model/{{classFilename}}.dart';
-{{/model}}{{/models}}
 
 ApiClient defaultApiClient = ApiClient();
