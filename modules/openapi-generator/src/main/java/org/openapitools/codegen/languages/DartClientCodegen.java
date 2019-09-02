@@ -96,9 +96,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("map", "Map");
 
         typeMapping = new HashMap<String, String>();
-        typeMapping.put("Array", "List");
-        typeMapping.put("array", "List");
-        typeMapping.put("List", "List");
+        typeMapping.put("Array", "BuiltList");
+        typeMapping.put("array", "BuiltList");
+        typeMapping.put("List", "BuiltList");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
         typeMapping.put("char", "String");

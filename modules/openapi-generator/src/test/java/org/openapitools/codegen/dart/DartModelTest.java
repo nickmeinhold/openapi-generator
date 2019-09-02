@@ -115,9 +115,9 @@ public class DartModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.dataType, "List<String>");
+        Assert.assertEquals(property2.dataType, "BuiltList<String>");
         Assert.assertEquals(property2.name, "urls");
-        Assert.assertEquals(property2.baseType, "List");
+        Assert.assertEquals(property2.baseType, "BuiltList");
         Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
@@ -195,9 +195,9 @@ public class DartModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.dataType, "List<Children>");
+        Assert.assertEquals(property1.dataType, "BuiltList<Children>");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "List");
+        Assert.assertEquals(property1.baseType, "BuiltList");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
