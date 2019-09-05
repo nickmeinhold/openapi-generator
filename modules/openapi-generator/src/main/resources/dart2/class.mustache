@@ -4,13 +4,17 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
+import 'package:{{pubName}}/serializers.dart';
+
 part '{{classFilename}}.g.dart';
 
 abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builder> {
 
   {{#vars}}
   {{#description}}/* {{{description}}} */{{/description}}
-  {{{dataType}}} get {{name}};
+  {{#isNullable}}@nullable{{/isNullable}}
+  @BuiltValueField(wireName: '{{baseName}}')
+  {{#containerType}}Built{{/containerType}}{{{dataType}}} get {{name}};
   {{#allowableValues}}
   {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{
   {{/allowableValues}}
@@ -20,8 +24,8 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
 
   factory {{classname}}([updates({{classname}}Builder b)]) = _${{classname}};
 
-  String toJson() {
-    json.encode(serializers.serializeWith({{classname}}.serializer, this));
+  Map<String, Object> toJson() {
+    return serializers.serializeWith({{classname}}.serializer, this);
   }
 
   static {{classname}} fromJson(String jsonString) {
