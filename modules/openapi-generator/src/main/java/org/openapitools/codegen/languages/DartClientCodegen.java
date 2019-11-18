@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import sun.net.www.http.HttpClient;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -36,47 +38,18 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-// import static org.openapitools.codegen.utils.StringUtils.camelize;
-// import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-// import java.io.BufferedReader;
-// import java.io.File;
-// import java.io.FileInputStream;
-// import java.io.InputStreamReader;
-// import java.nio.charset.Charset;
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.HashSet;
-// import java.util.List;
-// import java.util.Map;
-// import java.util.Set;
-
-// import javax.xml.validation.Schema;
-
-// import org.apache.commons.io.FilenameUtils;
-// import org.openapitools.codegen.CodegenConfig;
-// import org.openapitools.codegen.CodegenConstants;
-// import org.openapitools.codegen.CodegenModel;
-// import org.openapitools.codegen.CodegenProperty;
-// import org.openapitools.codegen.CodegenType;
-// import org.openapitools.codegen.DefaultCodegen;
-// import org.openapitools.codegen.utils.ModelUtils;
-// import org.openapitools.codegen.utils.StringUtils;
-// import org.slf4j.LoggerFactory;
-
-// import io.swagger.v3.oas.models.media.ArraySchema;
-
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
     public static final String BROWSER_CLIENT = "browserClient";
+    public static final String HTTP_CLIENT = "http";  
     public static final String PUB_NAME = "pubName";
     public static final String PUB_VERSION = "pubVersion";
     public static final String PUB_DESCRIPTION = "pubDescription";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
     public static final String SUPPORT_DART2 = "supportDart2";
     protected boolean browserClient = true;
+    protected String httpClient = "http";
     protected String pubName = "openapi";
     protected String pubVersion = "1.0.0";
     protected String pubDescription = "OpenAPI API client";
@@ -150,6 +123,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("ByteArray", "String");
 
         cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based (for Dart 1.x only)"));
+        cliOptions.add(new CliOption(HTTP_CLIENT, "Http CLient to be used by the generated library"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
         cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
@@ -187,6 +161,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             //not set, use to be passed to template
             additionalProperties.put(BROWSER_CLIENT, browserClient);
+        }
+
+        if (additionalProperties.containsKey(HTTP_CLIENT)) {
+            this.setHttpClient((String) additionalProperties.get(HTTP_CLIENT));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(HTTP_CLIENT, httpClient);
         }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
@@ -533,6 +514,10 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setBrowserClient(boolean browserClient) {
         this.browserClient = browserClient;
+    }
+
+    public void setHttpClient(String httpClient) {
+        this.httpClient = httpClient;
     }
 
     public void setPubName(String pubName) {
